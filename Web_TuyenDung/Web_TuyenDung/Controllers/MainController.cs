@@ -71,7 +71,11 @@ namespace Web_TuyenDung.Controllers
                 };
 
                 await _ViecLamDAO.Save(viecLam);
-                return Json(new { success = true, message = "Thêm việc làm thành công!" });
+                return Json(new { 
+                    success = true, 
+                    message = "Thêm việc làm thành công",
+                    data = viecLam // đối tượng việc làm vừa được thêm vào
+                });
             }
             catch (Exception ex)
             {
@@ -84,20 +88,51 @@ namespace Web_TuyenDung.Controllers
 
         //xóa việc làm 
         [HttpPost]
-        [Route("XoaViecLam/{id_vieclam}")]
-        public async Task<IActionResult> XoaViecLam(int id_vieclam)
+        [Route("Main/ViewMain/XoaViecLam/{maViecLam}")] 
+        public async Task<IActionResult> XoaViecLam(int maViecLam)
         {
             var quyen = HttpContext.Session.GetString("QuyenHan");
             if (quyen == null || !quyen.Equals("Admin"))
             {
                 return Json(new { success = false, message = "Không có quyền thực hiện!" });
             }
-            bool result = await _ViecLamDAO.Delete(id_vieclam);
+            bool result = await _ViecLamDAO.Delete(maViecLam);
             if (result)
             {
-                return Json(new { success = true });
+                return Json(new { success = true , message = "Xóa việc làm thành công."});
             }
             return Json(new { success = false, message = "Xóa việc làm không thành công." });
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> LayThongTinViecLam(int id)
+        {
+            try {
+                var viecLam = await _ViecLamDAO.GetByID(id);
+                if (viecLam != null)
+                {
+                    return Json(new { success = true, data = viecLam });
+                }
+                return Json(new { success = false, message = "Không tìm thấy việc làm!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> CapNhatViecLam(ViecLam model)
+        {
+            try
+            {
+                await _ViecLamDAO.Update(model);
+                return Json(new { success = true, message = "Cập nhật việc làm thành công!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

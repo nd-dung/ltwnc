@@ -6,9 +6,11 @@
 
 <div class="container">
     @if (Model.IsAdmin){    
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jobModal">Thêm mới</button>
+        <div class="text-center mb-3">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jobModal">Thêm mới</button>
+        </div>
     }
-    <table class="table">
+    <table class="table mx-auto w-100">
         <thead>
             <tr>
                 <th>Mã việc làm</th>
@@ -19,7 +21,9 @@
                 <th>Ngày tạo</th>
                 <th>Ngày hết hạn</th>
                 <th>Trạng thái</th>
-                <th>Thao tác</th>
+                @if (Model.IsAdmin){
+                    <th>Thao tác</th>
+                }   
             </tr>
         </thead>
         <tbody>
@@ -36,8 +40,8 @@
                     <td>@(item.TrangThai ? "Đang tuyển" : "Dừng tuyển")</td>
                     @if (Model.IsAdmin){
                         <td>
-                        <a href="@Url.Action("Edit", "Main", new { id = item.MaViecLam })" class="btn btn-primary">Sửa</a>
-                            <button onclick="XoaViecLam(@item.MaViecLam)" class="btn btn-danger">Xóa</button>
+                        <button onclick="SuaViecLam(@item.MaViecLam)" class="btn btn-primary">Sửa</button>
+                        <button onclick="XoaViecLam(@item.MaViecLam)" class="btn btn-danger">Xóa</button>
                         </td>
                     }
                     
@@ -46,21 +50,21 @@
         </tbody>
     </table>
 
-    <!-- Modal -->
+    <!-- Modal thêm việc làm  -->
     <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="jobModalLabel">Thêm việc làm mới</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form asp-action="ThemViecLam" asp-controller="Main" method="post" id="createJobForm">
                         <div class="form-group">
                             <label for="title" class="form-label">Tiêu đề</label>
-                            <input id="title" asp-for="ViecLamMoi.TieuDe" class="form-control" placeholder="Tiêu đề">
+                            <input id="title" name="title" asp-for="ViecLamMoi.TieuDe" class="form-control" placeholder="Tiêu đề">
                             <span asp-validation-for="ViecLamMoi.TieuDe" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -107,6 +111,60 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal sửa việc làm -->
+    <div class="modal fade" id="editJobModal" tabindex="-1" role="dialog" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editJobModalLabel">Sửa việc làm</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editJobForm">
+                    <input type="hidden" id="edit-maViecLam">
+                    <div class="form-group">
+                        <label for="edit-title" class="form-label">Tiêu đề</label>
+                        <input id="edit-title" class="form-control" placeholder="Tiêu đề">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-salary" class="form-label">Mức lương</label>
+                        <input type="text" id="edit-salary" class="form-control" placeholder="Mức lương">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-create-date" class="form-label">Ngày tạo</label>
+                        <input type="date" id="edit-create-date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-end-date" class="form-label">Ngày hết hạn</label>
+                        <input type="date" id="edit-end-date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-description" class="form-label">Mô tả</label>
+                        <textarea id="edit-description" class="form-control" rows="3" placeholder="Mô tả"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-contact" class="form-label">Thông tin liên hệ</label>
+                        <textarea id="edit-contact" class="form-control" rows="3" placeholder="Thông tin liên hệ"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-status" class="form-label">Trạng thái</label>
+                        <select id="edit-status" class="form-control">
+                            <option value="true">Đang tuyển</option>
+                            <option value="false">Ngừng tuyển</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -114,12 +172,6 @@
         $(document).ready(function () {
             $("#createJobForm").submit(function (e) {
                 e.preventDefault();
-              
-                // Kiểm tra validation phía client
-                if (!validateForm()) {
-                    return;
-                }
-
                 var formData = {
                     TieuDe: $("#title").val(),
                     MoTa: $("#description").val(),
@@ -140,9 +192,27 @@
                     },
                     success: function (result) {
                         if (result.success) {
+                            // Thêm dòng mới vào bảng
+                            var newRow = `<tr>
+                                <td>${result.data.maViecLam}</td>
+                                <td>${formData.TieuDe}</td>
+                                <td>${formData.MoTa}</td>
+                                <td>${formData.TTLienHe}</td>
+                                <td>${formData.MucLuong}</td>
+                                <td>${formData.NgayTao}</td>
+                                <td>${formData.NgayHetHan}</td>
+                                <td>${formData.TrangThai === "true" ? "Đang tuyển" : "Dừng tuyển"}</td>
+                                <td>
+                                    <a href="/Main/Edit/${result.data.maViecLam}" class="btn btn-primary">Sửa</a>
+                                    <button onclick="XoaViecLam(${result.data.maViecLam})" class="btn btn-danger">Xóa</button>
+                                </td>
+                            </tr>`;
+                            $("table tbody").append(newRow);
+                            
+                            // Reset form và đóng modal
+                            $("#createJobForm")[0].reset();
+                            $("#jobModal").modal("hide");
                             alert(result.message);
-                            // Chuyển hướng sau khi thêm thành công
-                            window.location.href = '@Url.Action("QuanLyViecLam")';
                         } else {
                             alert(result.message);
                         }
@@ -160,7 +230,7 @@
          function XoaViecLam(maViecLam) {
             if (confirm("Bạn có chắc chắn muốn xóa việc làm này không?")) {
                 $.ajax({
-                    url: `@Url.Action("XoaViecLam", "Main")/${maViecLam}`,
+                    url: `/Main/ViewMain/XoaViecLam/${maViecLam}`,
                     type: 'POST',
                     success: function (result) {
                         if (result.success) {
@@ -179,5 +249,84 @@
                 });
             }
         }
+
+        // Sửa nút "Sửa" trong bảng để mở modal
+        function SuaViecLam(maViecLam) {
+            $.ajax({
+                url: `/Main/LayThongTinViecLam/${maViecLam}`,
+                type: 'GET',
+                success: function(result) {
+                    if (result.success) {
+                        // Điền dữ liệu vào form
+                        $("#edit-maViecLam").val(result.data.maViecLam);
+                        $("#edit-title").val(result.data.tieuDe);
+                        $("#edit-salary").val(result.data.mucLuong);
+                        $("#edit-create-date").val(result.data.ngayTao.split('T')[0]);
+                        $("#edit-end-date").val(result.data.ngayHetHan.split('T')[0]);
+                        $("#edit-description").val(result.data.moTa);
+                        $("#edit-contact").val(result.data.ttLienHe);
+                        $("#edit-status").val(result.data.trangThai.toString());
+                        
+                        // Mở modal
+                        $("#editJobModal").modal("show");
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert("Có lỗi xảy ra khi lấy thông tin việc làm!");
+                }
+            });
+        }
+
+        // Xử lý submit form sửa
+        $("#editJobForm").submit(function(e) {
+            e.preventDefault();
+            var formData = {
+                MaViecLam: $("#edit-maViecLam").val(),
+                TieuDe: $("#edit-title").val(),
+                MoTa: $("#edit-description").val(),
+                TTLienHe: $("#edit-contact").val(),
+                MucLuong: $("#edit-salary").val(),
+                NgayTao: $("#edit-create-date").val(),
+                NgayHetHan: $("#edit-end-date").val(),
+                TrangThai: $("#edit-status").val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("CapNhatViecLam", "Main")',
+                type: 'POST',
+                data: formData,
+                success: function(result) {
+                    if (result.success) {
+                        // Cập nhật dòng trong bảng
+                        var row = $(`tr:has(td:contains(${formData.MaViecLam}))`);
+                        row.html(`
+                            <td>${formData.MaViecLam}</td>
+                            <td>${formData.TieuDe}</td>
+                            <td>${formData.MoTa}</td>
+                            <td>${formData.TTLienHe}</td>
+                            <td>${formData.MucLuong}</td>
+                            <td>${formData.NgayTao}</td>
+                            <td>${formData.NgayHetHan}</td>
+                            <td>${formData.TrangThai === "true" ? "Đang tuyển" : "Dừng tuyển"}</td>
+                            <td>
+                                <button onclick="SuaViecLam(${formData.MaViecLam})" class="btn btn-primary">Sửa</button>
+                                <button onclick="XoaViecLam(${formData.MaViecLam})" class="btn btn-danger">Xóa</button>
+                            </td>
+                        `);
+
+                        // Đóng modal và hiển thị thông báo
+                        $("#editJobModal").modal("hide");
+                        alert(result.message);
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function() {
+                    alert("Có lỗi xảy ra khi cập nhật việc làm!");
+                }
+            });
+        });
     </script>
 }

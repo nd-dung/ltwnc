@@ -51,9 +51,12 @@
                                 </li>
                             
                         }
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="@Url.Action("ViewMain","Main")">Trang thi</a>
-                            </li>
+                            @if (Context.Session.GetString("NguoiDung") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("ViewMain","Main")">Trang thi</a>
+                                </li>
+                            }
                     }
                     </ul>
                     
