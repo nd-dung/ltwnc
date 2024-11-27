@@ -1,0 +1,11 @@
+﻿.btn-custom {
+    background-color: #ff7f50; /* Màu cam đậm */
+    color: #fff; /* Màu chữ trắng */
+    border-color: #ff7f50; /* Màu viền */
+}
+
+    .btn-custom:hover {
+        background-color: #e65c00; /* Màu cam sáng khi hover */
+        border-color: #e65c00; /* Màu viền khi hover */
+        color: #fff; /* Màu chữ trắng khi hover */
+    }

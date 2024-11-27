@@ -1,0 +1,145 @@
+﻿@using Newtonsoft.Json
+
+<!DOCTYPE html
+<html>
+<head>
+    <title>@ViewData["Title"] - My ASP.NET Application</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/layout.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand logo"  href="@Url.Action("Index","Home")">SPT</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @{
+                        var quyen = Context.Session.GetString("QuyenHan");
+
+                        if (quyen == null || !quyen.ToString().Equals("Admin"))
+                        {
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="@Url.Action("Index","TuyenDung")">Tuyển dụng</a>
+                                </li>
+                                
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Tài khoản
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("ThongTinTaiKhoan", "TaiKhoan")">
+                                                Thông tin tài khoản
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("ThongTinCaNhan", "TaiKhoan")">
+                                                Thông tin cá nhân
+                                            </a>
+                                        </li>
+                                        
+                                    </ul>
+                                </li>
+                            
+                        }
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="@Url.Action("ViewMain","Main")">Trang thi</a>
+                            </li>
+                    }
+                    </ul>
+                    
+                    
+                    <div class="d-flex">
+                        @{
+                            var ndjson = Context.Session.GetString("NguoiDung");
+                            if (ndjson != null)
+                            {
+                                var nguoiDung = JsonConvert.DeserializeObject<NguoiDung>(ndjson);
+                                <a class="btn btn-primary me-2" href="#" role="button">@nguoiDung.TenND</a>
+                                <a class="btn btn-primary me-2" href="/TaiKhoan/Logout" role="button">Logout</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-danger me-2" href="/TaiKhoan/Login" role="button">Login</a>
+                                <a class="btn btn-danger" href="/TaiKhoan/Register" role="button">Register</a>
+                            }
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <footer class="footer" style="margin-top: 230px;">
+        <div class="footer-left">
+            <div class="footer-logo" style="margin-left: 50px;">SPT</div>
+            <div class="footer-social">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            <div class="footer-contact">
+                <p><i class="fas fa-phone-alt"></i> (8428) - 3962 3888</p>
+            </div>
+        </div>
+        <div class="footer-center">
+            <div class="footer-section">
+                <h3 class="footer-title">Về SPT</h3>
+                <ul class="footer-list">
+                    <li class="footer-item">Sứ mệnh</li>
+                    <li class="footer-item">Giá trị cốt lõi</li>
+                    <li class="footer-item">Cột mốc chính</li>
+                    <li class="footer-item">Ban lãnh đạo cấp cao</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Tin tức</h3>
+                <ul class="footer-list">
+                    <li class="footer-item">Tin tức mới nhất</li>
+                    <li class="footer-item">Thư viện</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Sản phẩm</h3>
+                <ul class="footer-list">
+                    <li class="footer-item">Trò chơi trực tuyến</li>
+                    <li class="footer-item">Zalo & AI</li>
+                    <li class="footer-item">Thanh toán và Tài chính</li>
+                    <li class="footer-item">Chuyển đổi số</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Con người</h3>
+                <ul class="footer-list">
+                    <li class="footer-item">Con người SPT</li>
+                    <li class="footer-item">Cuộc sống tại VNG</li>
+                    <li class="footer-item">Cơ hội nghề nghiệp</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Trách nhiệm cộng đồng</h3>
+                <ul class="footer-list">
+                    <li class="footer-item">Quỹ Kiến tạo Ước mơ</li>
+                    <li class="footer-item">Các chương trình nổi bật</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</body>
+

@@ -1,0 +1,92 @@
+﻿@model Web_TuyenDung.Models.ViewModels.LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container-fluid {
+            height: 100vh;
+        }
+
+        .bg-image-container {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .bg-image-container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .register-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .register-form form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="" style="width: 600px;height: 400px; margin-top: 250px;margin-left:100px">
+                <img src="~/image/image.png" alt="Background Image">
+            </div>
+            <div class="col-md-6 register-form">
+                <form asp-action="Login" method="post">
+                    <h2 class="text-center">Đăng nhập</h2>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input asp-for="Email" type="email" class="form-control" id="email" placeholder="Email" required>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" asp-for="MatKhau" class="form-control" id="password" placeholder="Mật khẩu" required>
+                        <span asp-validation-for="MatKhau" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                    </div>
+                        <p class="text-danger text-center mb-2">@ViewBag.Message</p>
+                        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+                    <div class="text-center mt-2">
+                        <a href="Register">Đăng kí</a>
+                        <br />
+                        @Html.ActionLink("Trở về trang chủ","Index", "Home")
+                    </div>
+                    
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
+

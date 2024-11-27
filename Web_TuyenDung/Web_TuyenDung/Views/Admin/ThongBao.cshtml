@@ -1,0 +1,40 @@
+﻿@model Web_TuyenDung.Models.ViewModels.ThongBaoViewModel
+@{
+	ViewData["Title"] = "Thông báo";
+}
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
+<link rel="stylesheet" href="~/css/style.css">
+
+
+<main class="container-sm py-4">
+	<div class="card col-8 mx-auto">
+		<div class="card-body">
+			<form asp-action="ThongBao" asp-route-id_nd="@ViewBag.id_nd">
+				<div class="mb-3 col-3">
+					<label class="form-label">Email nhận</label>
+					<input asp-for="ToEmail" type="email" class="form-control">
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Tiêu đề</label>
+					<textarea asp-for="Subject" class="form-control" style="height: 50px;"></textarea>
+				</div>
+				<div class="mb-3">
+					<label for="exampleFormControlTextarea1" class="form-label">Nội dung</label>
+					<textarea asp-for="Message" class="form-control" id="exampleFormControlTextarea1" style="height: 300px;"></textarea>
+				</div>
+				<div class="text-center mt-2">
+					<button type="submit" class="btn btn-danger">Gửi thông báo</button>
+					<br/>
+					<span class="mt-2 @(ViewBag.MessageCode == 0 ? "text-danger" : "text-primary")">@ViewBag.Message</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</main>
+
+@* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> *@
+
+

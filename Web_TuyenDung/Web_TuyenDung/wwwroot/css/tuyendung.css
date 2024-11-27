@@ -1,0 +1,228 @@
+﻿
+
+.search-section {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 70%;
+    /* Increase width of the search box */
+}
+
+    .search-box input {
+        padding: 10px;
+        border: none;
+        outline: none;
+        flex: 1;
+    }
+
+    .search-box button {
+        padding: 10px 20px;
+        background-color: #EE5B1C;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+.job-info-section h2 {
+    padding: 20px;
+    text-align: center;
+}
+
+    .job-info-section h2 {
+        margin-bottom: 20px;
+    }
+
+/*.job-list {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 50px;
+}
+
+.job-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    flex: 1;
+    margin: 20px;
+    width: calc(50% - 40px);
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}*/
+.job-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0px 50px;
+}
+
+.job-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    flex: 1 1 30%; /* Đặt chiều rộng của mỗi item nếu 4 item để 22%*/
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 30%; /* Đảm bảo rằng mỗi mục không chiếm quá 30% chiều rộng của hàng để 22% */
+    box-sizing: border-box;
+}
+.job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.job-header-title {
+    font-size: 20px;
+    flex: 1;
+    text-align: left;
+    font-weight: 600;
+}
+
+.job-header-location {
+    flex: 1;
+    text-align: right;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.location-icon {
+    color: #000;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/*.job-description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}*/
+
+.job-description-title {
+    flex: 1;
+    text-align: left;
+}
+
+.description-title {
+    font-size: 12px;
+    padding: 4px;
+    display: block;
+}
+
+.job-description-quanity {
+    flex: 1;
+    /*text-align: right;*/
+}
+
+.description-quanity {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 4px;
+    display: block;
+}
+
+.job-details {
+    margin-top: 10px;
+}
+
+.job-details-apply {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details-apply-deadline {
+    margin-top: 15px;
+}
+
+.apply-deadline {
+    font-weight: 500;
+}
+
+.details-apply-btn {
+    margin-top: 15px;
+}
+
+.btn-apply {
+    background-color: #EE5B1C;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    
+
+    .search-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-box {
+        flex-direction: column;
+        width: 100%;
+    }
+
+        .search-box input {
+            width: 100%;
+            border-radius: 4px;
+            border-right: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        .search-box button {
+            width: 100%;
+            border-radius: 4px;
+        }
+
+    .job-list {
+        display: block;
+    }
+
+    .job-header {
+        display: block;
+    }
+
+    .job-header-title {
+        width: 100%;
+    }
+
+    .job-header-location {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+
+    .job-card {
+        max-width: 100%;
+    }
+
+    .job-description {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .deadline-apply {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    
+}

@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ VNG";
+}
+
+<link rel="stylesheet" href="~/css/TrangChu.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <main class="container mt-5">
+        <section class="row mb-5">
+            <div class="col-md-6 order-md-1 order-2 d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="main-heading">Việc Làm 24h - Website việc làm phổ biến nhất Việt Nam với gần 20 năm kinh nghiệm trên thị trường.</h5>
+                    <p class="main-paragraph">Website việc làm phổ biến nhất Việt Nam với gần 20 năm kinh nghiệm trên thị trường.</p>
+                </div>
+                <section class="feature-section">
+                    <div class="feature-item mb-4">
+                        <h5 class="feature-heading">Nguồn ứng viên chất lượng</h5>
+                        <p class="feature-paragraph">Nhà tuyển dụng có thể tiếp cận nguồn ứng viên dồi dào với hơn 10 triệu hồ sơ và hơn 50 triệu lượt truy cập mỗi năm</p>
+                    </div>
+                    <div class="feature-item mb-4">
+                        <h5 class="feature-heading">Trải nghiệm toàn diện</h5>
+                        <p class="feature-paragraph">Tài khoản nhà tuyển dụng được tích hợp thêm các tính năng thông minh, giúp thuận tiện quản lý tin đăng, quản lý hồ sơ và theo dõi ứng viên, và lượng nộp đơn</p>
+                    </div>
+                    <div class="feature-item mb-4">
+                        <h5 class="feature-heading">Chi phí hợp lý</h5>
+                        <p class="feature-paragraph">Đặc quyền 12+ tin đăng miễn phí mỗi năm giúp nhà tuyển dụng tối ưu chi phí & quy trình tuyển dụng</p>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-6 order-md-2 order-1 d-flex align-items-center justify-content-center">
+                <img src="~/image/TrangChu.png" class="img-fluid" alt="Hero Image">
+            </div>
+        </section>
+    </main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function XoaViecLam(MaViecLam) {
+        if (confirm("Bạn có chắc chắn muốn xóa việc làm này không?")) {
+            $.ajax({
+                url: `@Url.Action("XoaViecLam", "Admin")/${MaViecLam}`,
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        alert("Xóa việc làm thành công.");
+                        // Xóa dòng tương ứng trong bảng hoặc cập nhật lại danh sách
+                        $('#row-' + MaViecLam).remove();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        }
+    }
+</script>
+
+
+
+

@@ -1,0 +1,39 @@
+﻿@using Newtonsoft.Json
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"] - Trang thi</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-center">
+                    <a class="navbar-brand" href="#">Thông tin việc làm</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer fixed-bottom">
+        <div class="container text-center">
+            <p>Nhóm 1 - Lập trình web nâng cao</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  @RenderSection("Scripts", required: false)
+</body>
+</html>

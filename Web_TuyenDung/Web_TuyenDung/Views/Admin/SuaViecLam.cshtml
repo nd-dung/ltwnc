@@ -1,0 +1,57 @@
+@model ViecLam
+
+@{
+    ViewData["Title"] = "Sửa tin tuyển dụng";
+}
+
+<main>
+    <h1 class="main-title">Sửa việc làm đã đăng</h1>
+    <form asp-action="SuaViecLam" asp-asp-controller="Admin" class="job-form">
+        <input  type ="hidden" asp-for="MaViecLam"/> 
+        <div class="form-group">
+            <label for="title" class="form-label">Tiêu đề</label>
+            <input id="title" asp-for="TieuDe" class="form-input" placeholder="Tiêu đề">
+            <span asp-validation-for="TieuDe" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="salary" class="form-label">Mức lương</label>
+            <input type="text" id="salary" asp-for="MucLuong" class="form-input" placeholder="Mức lương">
+            <span asp-validation-for="MucLuong" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label for="create-date" class="form-label">Ngày tạo</label>
+            <input type="date" id="create-date" asp-for="NgayTao" class="form-input" placeholder="Ngày tạo">
+            <span asp-validation-for="NgayTao" class="text-danger"></span>
+        </div>
+        
+        <div class="form-group">
+            <label for="end-date" class="form-label">Ngày hết hạn</label>
+            <input type="date" id="end-date" asp-for="NgayHetHan" class="form-input" placeholder="Ngày hết hạn">
+            <span asp-validation-for="NgayHetHan" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="description" class="form-label">Mô tả</label>
+            <textarea id="description" asp-for="MoTa" class="form-textarea" placeholder="Mô tả"></textarea>
+            <span asp-validation-for="MoTa" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="description" class="form-label">Thông tin liên hệ</label>
+            <textarea id="description" asp-for="TTLienHe" class="form-textarea" placeholder="Liên hệ"></textarea>
+            <span asp-validation-for="TTLienHe" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="status" class="form-label">Trạng thái</label>
+            <select class="form-select" aria-label="Default select example">
+                <option value="1" selected>Đang tuyển</option>
+                <option value="2">Ngừng tuyển</option>
+            </select>
+        </div>
+        <div class="submit-container">
+            <button type="submit" class="submit-button">Lưu thay đổi</button>
+        </div>
+    </form>
+</main>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

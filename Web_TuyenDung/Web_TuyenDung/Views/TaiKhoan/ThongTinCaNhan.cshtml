@@ -1,0 +1,68 @@
+﻿@model Web_TuyenDung.Models.NguoiDung
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+<style>
+
+
+	button.btn-submit-form {
+		background: #EE5B1C;
+		border-radius: 10px;
+		display: inline-block;
+		border: none;
+		padding: 10px 25px;
+		color: #fff;
+		font-size: 18px;
+		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	}
+
+	main {
+		flex: 1; /* Dãn main content để lấp đầy phần còn lại của trang */
+		min-height: calc(100vh - 80px); /* Giả sử footer có padding-top và padding-bottom 20px */
+	}
+
+</style>
+
+<main class="container-sm py-4">
+	<div class="card col-8 mx-auto">
+		<div class="card-body">
+			<form asp-action="CapNhatThongTinCaNhan" method="post">
+				<div class="mb-3">
+					<label class="form-label">Tên người dùng:</label>
+					<input asp-for="TenND" type="text" class="form-control">
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Email:</label>
+					<input asp-for="Email" type="email" class="form-control">
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label">Số điện thoại:</label>
+					<input asp-for="SDT" type="text" class="form-control">
+				</div>
+
+				<div class="form-group mb-3">
+					<label for="title" class="form-label">Ngày sinh: </label>
+					<input id="title" asp-for="NgaySinh" class="form-input" type="date">
+					<span asp-validation-for="NgaySinh" class="text-danger"></span>
+				</div>
+
+				<div class="form-group mb-3">
+					<label for="status" class="form-label">Giới tính:</label>
+					<select class="form-select" aria-label="Default select example" asp-for="GioiTinh">
+						<option value="Nam" selected>Nam</option>
+						<option value="Nữ">Nữ</option>
+					</select>
+				</div>
+
+				<div class="text-center mt-2">
+					<button type="submit" class="btn btn-submit-form">Lưu</button>
+					<br />
+					<span class="mt-4 @(ViewBag.MessageCode == 0 ? "text-danger" : "text-primary")">@ViewBag.Message</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</main>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

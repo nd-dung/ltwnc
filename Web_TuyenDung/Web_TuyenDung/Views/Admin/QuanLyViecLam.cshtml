@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Web_TuyenDung.Models.ViecLam>
+@{
+    ViewData["Title"] = "Quản lý tin tuyển dụng";
+    int stt = 1;
+    
+}
+
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />
+<link rel="stylesheet" href="~/css/style.css">
+
+
+<main class="py-4">
+    <section class="job-list">
+        <div class="container">
+            <h1 class="text-center mb-4">Quản lý Việc làm</h1>
+            <div class="d-flex justify-content-center mb-4">
+                <a href="@Url.Action("ThemViecLam", "Admin")" class="btn btn-custom mx-2">Tạo tin tuyển dụng mới</a>
+
+            </div>
+
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>STT</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày hết hạn</th>
+                        <th>Mô tả</th>
+                        <th>Mức lương</th>
+                        <th>Thao tác</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var vieclam in Model)
+                    {
+                        <tr id="row-@vieclam.MaViecLam">
+                            <td>@stt</td>
+                            <td>@vieclam.NgayTao.ToString("dd/MM/yyyy")</td>
+                            <td>@vieclam.NgayHetHan.ToString("dd/MM/yyyy")</td>
+                            <td>@vieclam.TieuDe</td>
+                            <td>@vieclam.MucLuong</td>
+                            <td>
+                                <a href="@Url.Action("SuaViecLam", "Admin")?id=@vieclam.MaViecLam" class="btn btn-custom m2-2">Sửa</a>
+                                <a href="javascript:XoaViecLam(@vieclam.MaViecLam);" class="btn btn-custom me-2">Xóa</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("QuanLyUngTuyen", "Admin",
+                                    new { id_vieclam = vieclam.MaViecLam })"
+                                   class="btn btn-custom">@vieclam.DSDonUT.Count() Đơn ứng tuyển</a>
+                            </td>
+                        </tr>
+                        stt++;
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+
+    @* <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> *@
+
+@* //href="@Url.Action("XoaViecLam", "Admin", new { id_vieclam = vieclam.MaViecLam })" *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function XoaViecLam(MaViecLam) {
+        if (confirm("Bạn có chắc chắn muốn xóa việc làm này không?")) {
+            $.ajax({ 
+                url: `@Url.Action("XoaViecLam", "Admin")/${MaViecLam}`,
+                type: 'POST',
+                success: function (response) {
+                    if (response.success) {
+                        alert("Xóa việc làm thành công.");
+                        // Xóa dòng tương ứng trong bảng hoặc cập nhật lại danh sách
+                        $('#row-' + MaViecLam).remove();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function () {
+                    alert("Đã có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        }
+    }
+</script>
+

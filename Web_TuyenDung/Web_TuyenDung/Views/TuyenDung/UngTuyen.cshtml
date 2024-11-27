@@ -1,0 +1,49 @@
+﻿@model Web_TuyenDung.Models.ViewModels.UngTuyenViewModel;
+
+@{
+    ViewData["Title"] = "Ứng tuyển";
+}
+
+
+
+<main>
+    <h1 class="main-title">Ứng tuyển</h1>
+    <form asp-action="UngTuyen" class="job-form" method="post">
+        
+        <div class="form-group col-12">
+            <label for="title" class="form-label">Họ Và Tên</label>
+            <input id="title" asp-for="HoTen" class="form-input" readonly>
+            <span asp-validation-for="HoTen" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <label for="title" class="form-label">Ngày sinh</label>
+            <input id="title" asp-for="NgaySinh" class="form-input" type="date">
+            <span asp-validation-for="NgaySinh" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <label for="Email" class="form-label">Email</label>
+            <input id="Email" asp-for="Email" class="form-input" readonly>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <label for="SDT" class="form-label">Số điện thoại</label>
+            <input id="SDT" asp-for="SDT" class="form-input">
+            <span asp-validation-for="SDT" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <label for="description" class="form-label">Mô tả</label>
+            <textarea id="description" asp-for="MoTa" class="form-textarea" placeholder="Mô tả" style="height:200px;"></textarea>
+            <span asp-validation-for="MoTa" class="text-danger"></span>
+        </div>
+        <div class="form-group col-12">
+            <input hidden asp-for="MaND" />
+            <input hidden asp-for="MaViecLam"/>
+        </div>
+        <div class="submit-container">
+            <button type="submit" class="submit-button">Ứng tuyển</button>
+        </div>
+    </form>
+</main>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

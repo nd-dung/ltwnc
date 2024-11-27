@@ -1,0 +1,183 @@
+﻿@{
+    Layout = "~/Views/Shared/Layout_thi.cshtml";
+}
+
+@model Web_TuyenDung.Models.ViewModels.JobViewModel
+
+<div class="container">
+    @if (Model.IsAdmin){    
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jobModal">Thêm mới</button>
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Mã việc làm</th>
+                <th>Tiêu đề</th>
+                <th>Mô tả</th>
+                <th>Thông tin liên hệ</th>
+                <th>Mức lương</th>
+                <th>Ngày tạo</th>
+                <th>Ngày hết hạn</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DanhSachViecLam)
+            {
+                <tr>
+                    <td>@item.MaViecLam</td>
+                    <td>@item.TieuDe</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.TTLienHe</td>
+                    <td>@item.MucLuong</td>
+                    <td>@item.NgayTao</td>
+                    <td>@item.NgayHetHan</td>
+                    <td>@(item.TrangThai ? "Đang tuyển" : "Dừng tuyển")</td>
+                    @if (Model.IsAdmin){
+                        <td>
+                        <a href="@Url.Action("Edit", "Main", new { id = item.MaViecLam })" class="btn btn-primary">Sửa</a>
+                            <button onclick="XoaViecLam(@item.MaViecLam)" class="btn btn-danger">Xóa</button>
+                        </td>
+                    }
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jobModalLabel">Thêm việc làm mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="ThemViecLam" asp-controller="Main" method="post" id="createJobForm">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Tiêu đề</label>
+                            <input id="title" asp-for="ViecLamMoi.TieuDe" class="form-control" placeholder="Tiêu đề">
+                            <span asp-validation-for="ViecLamMoi.TieuDe" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="salary" class="form-label">Mức lương</label>
+                            <input type="text" id="salary" asp-for="ViecLamMoi.MucLuong" class="form-control" placeholder="Mức lương">
+                            <span asp-validation-for="ViecLamMoi.MucLuong" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="create-date" class="form-label">Ngày tạo</label>
+                            <input type="date" id="create-date" asp-for="ViecLamMoi.NgayTao" class="form-control">
+                            <span asp-validation-for="ViecLamMoi.NgayTao" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="end-date" class="form-label">Ngày hết hạn</label>
+                            <input type="date" id="end-date" asp-for="ViecLamMoi.NgayHetHan" class="form-control">
+                            <span asp-validation-for="ViecLamMoi.NgayHetHan" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <textarea id="description" asp-for="ViecLamMoi.MoTa" class="form-control" rows="3" placeholder="Mô tả"></textarea>
+                            <span asp-validation-for="ViecLamMoi.MoTa" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact" class="form-label">Thông tin liên hệ</label>
+                            <textarea id="contact" asp-for="ViecLamMoi.TTLienHe" class="form-control" rows="3" placeholder="Thông tin liên hệ"></textarea>
+                            <span asp-validation-for="ViecLamMoi.TTLienHe" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="form-label">Trạng thái</label>
+                            <select id="status" asp-for="ViecLamMoi.TrangThai" class="form-control">
+                                <option value="true" selected>Đang tuyển</option>
+                                <option value="false">Ngừng tuyển</option>
+                            </select>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-primary">Thêm mới</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#createJobForm").submit(function (e) {
+                e.preventDefault();
+              
+                // Kiểm tra validation phía client
+                if (!validateForm()) {
+                    return;
+                }
+
+                var formData = {
+                    TieuDe: $("#title").val(),
+                    MoTa: $("#description").val(),
+                    TTLienHe: $("#contact").val(),
+                    MucLuong: $("#salary").val(),
+                    NgayTao: $("#create-date").val(),
+                    NgayHetHan: $("#end-date").val(),
+                    TrangThai: $("#status").val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("ThemViecLam", "Main")',
+                    type: 'POST',
+                    data: formData,
+                    beforeSend: function() {
+                        // Hiển thị loading nếu cần
+                        $("#submitBtn").prop('disabled', true);
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            alert(result.message);
+                            // Chuyển hướng sau khi thêm thành công
+                            window.location.href = '@Url.Action("QuanLyViecLam")';
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi thêm việc làm!");
+                    },
+                    complete: function() {
+                        $("#submitBtn").prop('disabled', false);
+                    }
+                });
+            });
+        });
+
+         function XoaViecLam(maViecLam) {
+            if (confirm("Bạn có chắc chắn muốn xóa việc làm này không?")) {
+                $.ajax({
+                    url: `@Url.Action("XoaViecLam", "Main")/${maViecLam}`,
+                    type: 'POST',
+                    success: function (result) {
+                        if (result.success) {
+                            alert(result.message);
+                            // Xóa dòng trong bảng
+                            $('tr').filter(function() {
+                                return $(this).find('td:first').text() == maViecLam;
+                            }).remove();
+                        } else {
+                            alert(result.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi xóa việc làm!");
+                    }
+                });
+            }
+        }
+    </script>
+}
