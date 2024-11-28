@@ -122,6 +122,7 @@ namespace Web_TuyenDung.Controllers
         }
 
         [HttpPost]
+        [Route("CapNhatViecLam")] 
         public async Task<JsonResult> CapNhatViecLam(ViecLam model)
         {
             try

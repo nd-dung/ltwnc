@@ -6,49 +6,51 @@
 
 <div class="container">
     @if (Model.IsAdmin){    
-        <div class="text-center mb-3">
+        <div class="text-center mb-3 mt-4">
             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#jobModal">Thêm mới</button>
         </div>
     }
-    <table class="table mx-auto w-100">
-        <thead>
-            <tr>
-                <th>Mã việc làm</th>
-                <th>Tiêu đề</th>
-                <th>Mô tả</th>
-                <th>Thông tin liên hệ</th>
-                <th>Mức lương</th>
-                <th>Ngày tạo</th>
-                <th>Ngày hết hạn</th>
-                <th>Trạng thái</th>
-                @if (Model.IsAdmin){
-                    <th>Thao tác</th>
-                }   
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.DanhSachViecLam)
-            {
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+        <table class="table mx-auto w-100">
+            <thead style="position: sticky; top: 0; background-color: white; z-index: 1;">
                 <tr>
-                    <td>@item.MaViecLam</td>
-                    <td>@item.TieuDe</td>
-                    <td>@item.MoTa</td>
-                    <td>@item.TTLienHe</td>
-                    <td>@item.MucLuong</td>
-                    <td>@item.NgayTao</td>
-                    <td>@item.NgayHetHan</td>
-                    <td>@(item.TrangThai ? "Đang tuyển" : "Dừng tuyển")</td>
+                    <th>Mã việc làm</th>
+                    <th>Tiêu đề</th>
+                    <th>Mô tả</th>
+                    <th>Thông tin liên hệ</th>
+                    <th>Mức lương</th>
+                    <th>Ngày tạo</th>
+                    <th>Ngày hết hạn</th>
+                    <th>Trạng thái</th>
                     @if (Model.IsAdmin){
-                        <td>
-                        <button onclick="SuaViecLam(@item.MaViecLam)" class="btn btn-primary">Sửa</button>
-                        <button onclick="XoaViecLam(@item.MaViecLam)" class="btn btn-danger">Xóa</button>
-                        </td>
-                    }
-                    
+                        <th>Thao tác</th>
+                    }   
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DanhSachViecLam)
+                {
+                    <tr>
+                        <td>@item.MaViecLam</td>
+                        <td>@item.TieuDe</td>
+                        <td>@item.MoTa</td>
+                        <td>@item.TTLienHe</td>
+                        <td>@item.MucLuong</td>
+                        <td>@item.NgayTao</td>
+                        <td>@item.NgayHetHan</td>
+                        <td>@(item.TrangThai ? "Đang tuyển" : "Dừng tuyển")</td>
+                        @if (Model.IsAdmin){
+                            <td>
+                            <button onclick="SuaViecLam(@item.MaViecLam)" class="btn btn-primary">Sửa</button>
+                            <button onclick="XoaViecLam(@item.MaViecLam)" class="btn btn-danger">Xóa</button>
+                            </td>
+                        }
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
     <!-- Modal thêm việc làm  -->
     <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="jobModalLabel" aria-hidden="true">
@@ -203,7 +205,7 @@
                                 <td>${formData.NgayHetHan}</td>
                                 <td>${formData.TrangThai === "true" ? "Đang tuyển" : "Dừng tuyển"}</td>
                                 <td>
-                                    <a href="/Main/Edit/${result.data.maViecLam}" class="btn btn-primary">Sửa</a>
+                                    <button onclick="SuaViecLam(${result.data.maViecLam})" class="btn btn-primary">Sửa</button>
                                     <button onclick="XoaViecLam(${result.data.maViecLam})" class="btn btn-danger">Xóa</button>
                                 </td>
                             </tr>`;
